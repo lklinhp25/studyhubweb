@@ -1,0 +1,2386 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>StudyHub Pro - Ôn Tập 3 Chứng Chỉ Ngôn Ngữ</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        :root {
+            --primary: #4361ee;
+            --primary-dark: #3a56d4;
+            --secondary: #4cc9f0;
+            --success: #4caf50;
+            --warning: #ff9800;
+            --danger: #f44336;
+            --light: #f8f9fa;
+            --dark: #212529;
+            --gray: #6c757d;
+            --ielts: #ff6b6b;
+            --hsk: #4ecdc4;
+            --tocfl: #ffd166;
+            --shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+            --radius: 16px;
+            --transition: all 0.3s ease;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            color: var(--dark);
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1600px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        /* Header & Navigation */
+        header {
+            background: white;
+            border-radius: var(--radius);
+            padding: 25px 40px;
+            margin-bottom: 30px;
+            box-shadow: var(--shadow);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .logo h1 {
+            font-size: 2.2rem;
+            font-weight: 800;
+            background: linear-gradient(90deg, var(--ielts), var(--hsk), var(--tocfl));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .logo-icon {
+            font-size: 2.5rem;
+            color: var(--primary);
+        }
+
+        nav {
+            display: flex;
+            gap: 10px;
+        }
+
+        .nav-btn {
+            padding: 12px 24px;
+            border: none;
+            border-radius: 50px;
+            background: var(--light);
+            color: var(--gray);
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .nav-btn:hover {
+            background: var(--primary);
+            color: white;
+            transform: translateY(-2px);
+        }
+
+        .nav-btn.active {
+            background: var(--primary);
+            color: white;
+            box-shadow: 0 5px 15px rgba(67, 97, 238, 0.3);
+        }
+
+        .user-menu {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .notification {
+            position: relative;
+            cursor: pointer;
+        }
+
+        .notification-badge {
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            background: var(--danger);
+            color: white;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.8rem;
+        }
+
+        .user-avatar {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--ielts), var(--hsk));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 600;
+            font-size: 1.2rem;
+            cursor: pointer;
+        }
+
+        /* Dashboard */
+        .dashboard {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
+            margin-bottom: 30px;
+        }
+
+        .stat-card {
+            background: white;
+            border-radius: var(--radius);
+            padding: 25px;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+        }
+
+        .stat-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .stat-title {
+            font-size: 1.1rem;
+            color: var(--gray);
+            font-weight: 600;
+        }
+
+        .stat-icon {
+            width: 50px;
+            height: 50px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            color: white;
+        }
+
+        .stat-icon.vocab { background: var(--primary); }
+        .stat-icon.test { background: var(--success); }
+        .stat-icon.streak { background: var(--warning); }
+        .stat-icon.time { background: var(--secondary); }
+
+        .stat-value {
+            font-size: 2.5rem;
+            font-weight: 800;
+            margin-bottom: 10px;
+        }
+
+        .stat-change {
+            font-size: 0.9rem;
+            color: var(--success);
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .stat-change.negative { color: var(--danger); }
+
+        /* Main Content */
+        .main-content {
+            display: none;
+            background: white;
+            border-radius: var(--radius);
+            padding: 30px;
+            box-shadow: var(--shadow);
+            min-height: 600px;
+        }
+
+        .main-content.active {
+            display: block;
+            animation: fadeIn 0.5s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .content-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 2px solid var(--light);
+        }
+
+        .content-title {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--dark);
+        }
+
+        .content-subtitle {
+            color: var(--gray);
+            margin-top: 5px;
+        }
+
+        /* Vocabulary Section */
+        .vocab-controls {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 25px;
+            flex-wrap: wrap;
+        }
+
+        .vocab-filter, .vocab-search {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .filter-btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 50px;
+            background: var(--light);
+            color: var(--gray);
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .filter-btn.active {
+            background: var(--primary);
+            color: white;
+        }
+
+        .search-box {
+            position: relative;
+        }
+
+        .search-box input {
+            padding: 12px 20px 12px 45px;
+            border: 2px solid #e0e0e0;
+            border-radius: 50px;
+            width: 300px;
+            font-size: 1rem;
+        }
+
+        .search-box i {
+            position: absolute;
+            left: 18px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--gray);
+        }
+
+        .vocab-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 25px;
+            margin-bottom: 30px;
+        }
+
+        /* Quiz Section */
+        .quiz-container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .quiz-header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .quiz-progress {
+            height: 8px;
+            background: var(--light);
+            border-radius: 4px;
+            margin: 20px 0;
+            overflow: hidden;
+        }
+
+        .quiz-progress-bar {
+            height: 100%;
+            background: var(--primary);
+            border-radius: 4px;
+            transition: width 0.5s ease;
+        }
+
+        .quiz-question {
+            background: var(--light);
+            padding: 30px;
+            border-radius: var(--radius);
+            margin-bottom: 30px;
+            font-size: 1.3rem;
+            font-weight: 600;
+            text-align: center;
+        }
+
+        .quiz-options {
+            display: grid;
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+
+        .quiz-option {
+            padding: 20px;
+            border: 2px solid #e0e0e0;
+            border-radius: var(--radius);
+            cursor: pointer;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .quiz-option:hover {
+            border-color: var(--primary);
+            background: rgba(67, 97, 238, 0.05);
+        }
+
+        .quiz-option.selected {
+            border-color: var(--primary);
+            background: rgba(67, 97, 238, 0.1);
+        }
+
+        .quiz-option.correct {
+            border-color: var(--success);
+            background: rgba(76, 175, 80, 0.1);
+        }
+
+        .quiz-option.incorrect {
+            border-color: var(--danger);
+            background: rgba(244, 67, 54, 0.1);
+        }
+
+        .quiz-controls {
+            display: flex;
+            justify-content: space-between;
+            gap: 15px;
+        }
+
+        .quiz-btn {
+            padding: 15px 30px;
+            border: none;
+            border-radius: 50px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .quiz-btn.primary {
+            background: var(--primary);
+            color: white;
+        }
+
+        .quiz-btn.secondary {
+            background: var(--light);
+            color: var(--gray);
+        }
+
+        .quiz-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Listening Section */
+        .listening-container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .audio-player {
+            background: var(--light);
+            border-radius: var(--radius);
+            padding: 30px;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+
+        .audio-controls {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 20px;
+            margin: 20px 0;
+        }
+
+        .audio-btn {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            border: none;
+            background: var(--primary);
+            color: white;
+            font-size: 1.5rem;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .audio-btn:hover {
+            transform: scale(1.1);
+            box-shadow: 0 5px 15px rgba(67, 97, 238, 0.3);
+        }
+
+        .progress-bar {
+            flex-grow: 1;
+            height: 8px;
+            background: #ddd;
+            border-radius: 4px;
+            overflow: hidden;
+            cursor: pointer;
+        }
+
+        .progress {
+            height: 100%;
+            background: var(--primary);
+            border-radius: 4px;
+            width: 0%;
+        }
+
+        .transcript-container {
+            background: white;
+            border: 2px solid var(--light);
+            border-radius: var(--radius);
+            padding: 25px;
+            margin-top: 30px;
+            max-height: 300px;
+            overflow-y: auto;
+        }
+
+        .transcript-line {
+            padding: 10px;
+            margin-bottom: 5px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .transcript-line:hover {
+            background: rgba(67, 97, 238, 0.05);
+        }
+
+        .transcript-line.active {
+            background: rgba(67, 97, 238, 0.1);
+            border-left: 4px solid var(--primary);
+        }
+
+        /* Writing Section */
+        .writing-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+        }
+
+        @media (max-width: 992px) {
+            .writing-container {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .writing-prompt {
+            background: var(--light);
+            padding: 30px;
+            border-radius: var(--radius);
+        }
+
+        .prompt-header {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .prompt-icon {
+            width: 50px;
+            height: 50px;
+            background: var(--primary);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.5rem;
+        }
+
+        .prompt-content {
+            line-height: 1.8;
+        }
+
+        .writing-area {
+            display: flex;
+            flex-direction: column;
+            height: 500px;
+        }
+
+        .writing-tools {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 15px;
+            flex-wrap: wrap;
+        }
+
+        .tool-btn {
+            padding: 8px 16px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            background: white;
+            cursor: pointer;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .tool-btn:hover {
+            border-color: var(--primary);
+            color: var(--primary);
+        }
+
+        textarea {
+            flex-grow: 1;
+            padding: 20px;
+            border: 2px solid #e0e0e0;
+            border-radius: var(--radius);
+            font-family: 'Inter', sans-serif;
+            font-size: 1rem;
+            line-height: 1.6;
+            resize: none;
+            transition: var(--transition);
+        }
+
+        textarea:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.1);
+        }
+
+        .writing-stats {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 15px;
+            padding: 15px;
+            background: var(--light);
+            border-radius: var(--radius);
+            font-size: 0.9rem;
+        }
+
+        /* Statistics Section */
+        .stats-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 30px;
+        }
+
+        .chart-container {
+            background: white;
+            padding: 25px;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+        }
+
+        .chart-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-bottom: 20px;
+            color: var(--dark);
+        }
+
+        /* Community Section */
+        .community-container {
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .leaderboard {
+            background: white;
+            border-radius: var(--radius);
+            padding: 25px;
+            box-shadow: var(--shadow);
+            margin-bottom: 30px;
+        }
+
+        .leaderboard-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .leaderboard-item {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            padding: 15px;
+            border-bottom: 1px solid #f0f0f0;
+            transition: var(--transition);
+        }
+
+        .leaderboard-item:hover {
+            background: rgba(67, 97, 238, 0.05);
+            border-radius: 8px;
+        }
+
+        .rank {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            color: white;
+        }
+
+        .rank-1 { background: #ffd700; }
+        .rank-2 { background: #c0c0c0; }
+        .rank-3 { background: #cd7f32; }
+        .rank-other { background: var(--light); color: var(--gray); }
+
+        .user-info {
+            flex-grow: 1;
+        }
+
+        .user-name {
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+
+        .user-stats {
+            font-size: 0.9rem;
+            color: var(--gray);
+        }
+
+        .user-score {
+            font-weight: 700;
+            font-size: 1.2rem;
+            color: var(--primary);
+        }
+
+        /* Settings Section */
+        .settings-container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .settings-card {
+            background: white;
+            border-radius: var(--radius);
+            padding: 30px;
+            box-shadow: var(--shadow);
+            margin-bottom: 30px;
+        }
+
+        .settings-group {
+            margin-bottom: 30px;
+        }
+
+        .settings-title {
+            font-size: 1.3rem;
+            font-weight: 600;
+            margin-bottom: 20px;
+            color: var(--dark);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .setting-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 0;
+            border-bottom: 1px solid #f0f0f0;
+        }
+
+        .setting-label {
+            font-weight: 500;
+        }
+
+        .setting-control {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .switch {
+            position: relative;
+            display: inline-block;
+            width: 60px;
+            height: 30px;
+        }
+
+        .switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #ccc;
+            transition: .4s;
+            border-radius: 34px;
+        }
+
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 22px;
+            width: 22px;
+            left: 4px;
+            bottom: 4px;
+            background-color: white;
+            transition: .4s;
+            border-radius: 50%;
+        }
+
+        input:checked + .slider {
+            background-color: var(--primary);
+        }
+
+        input:checked + .slider:before {
+            transform: translateX(30px);
+        }
+
+        /* Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal.active {
+            display: flex;
+        }
+
+        .modal-content {
+            background: white;
+            border-radius: var(--radius);
+            padding: 40px;
+            max-width: 500px;
+            width: 90%;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.2);
+            animation: modalSlide 0.3s ease;
+        }
+
+        @keyframes modalSlide {
+            from { transform: translateY(-50px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .modal-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+        }
+
+        .modal-close {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: var(--gray);
+        }
+
+        /* Responsive */
+        @media (max-width: 1200px) {
+            .dashboard {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 768px) {
+            header {
+                flex-direction: column;
+                gap: 20px;
+                padding: 20px;
+            }
+            
+            nav {
+                width: 100%;
+                overflow-x: auto;
+                padding-bottom: 10px;
+            }
+            
+            .dashboard {
+                grid-template-columns: 1fr;
+            }
+            
+            .vocab-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .search-box input {
+                width: 100%;
+            }
+            
+            .stats-container {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Utility Classes */
+        .btn {
+            padding: 12px 24px;
+            border: none;
+            border-radius: 50px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .btn-primary {
+            background: var(--primary);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: var(--primary-dark);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(67, 97, 238, 0.3);
+        }
+
+        .btn-secondary {
+            background: var(--light);
+            color: var(--gray);
+        }
+
+        .badge {
+            padding: 4px 12px;
+            border-radius: 50px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+        .badge-ielts { background: var(--ielts); color: white; }
+        .badge-hsk { background: var(--hsk); color: white; }
+        .badge-tocfl { background: var(--tocfl); color: white; }
+
+        .hidden { display: none; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <header>
+            <div class="logo">
+                <div class="logo-icon">🎯</div>
+                <h1>StudyHub Pro</h1>
+            </div>
+            
+            <nav>
+                <button class="nav-btn active" data-tab="dashboard">
+                    <i class="fas fa-home"></i> Dashboard
+                </button>
+                <button class="nav-btn" data-tab="vocabulary">
+                    <i class="fas fa-book"></i> Từ vựng
+                </button>
+                <button class="nav-btn" data-tab="quiz">
+                    <i class="fas fa-question-circle"></i> Quiz
+                </button>
+                <button class="nav-btn" data-tab="listening">
+                    <i class="fas fa-headphones"></i> Luyện nghe
+                </button>
+                <button class="nav-btn" data-tab="writing">
+                    <i class="fas fa-edit"></i> Luyện viết
+                </button>
+                <button class="nav-btn" data-tab="statistics">
+                    <i class="fas fa-chart-line"></i> Thống kê
+                </button>
+                <button class="nav-btn" data-tab="community">
+                    <i class="fas fa-users"></i> Cộng đồng
+                </button>
+                <button class="nav-btn" data-tab="settings">
+                    <i class="fas fa-cog"></i> Cài đặt
+                </button>
+            </nav>
+            
+            <div class="user-menu">
+                <div class="notification">
+                    <i class="fas fa-bell fa-lg" style="color: var(--gray);"></i>
+                    <span class="notification-badge">3</span>
+                </div>
+                <div class="user-avatar">TN</div>
+            </div>
+        </header>
+
+        <!-- Dashboard -->
+        <div class="dashboard">
+            <div class="stat-card">
+                <div class="stat-header">
+                    <div class="stat-title">Từ vựng đã học</div>
+                    <div class="stat-icon vocab"><i class="fas fa-book"></i></div>
+                </div>
+                <div class="stat-value" id="totalWords">0</div>
+                <div class="stat-change positive">
+                    <i class="fas fa-arrow-up"></i>
+                    <span id="dailyWords">0 từ hôm nay</span>
+                </div>
+            </div>
+            
+            <div class="stat-card">
+                <div class="stat-header">
+                    <div class="stat-title">Bài quiz hoàn thành</div>
+                    <div class="stat-icon test"><i class="fas fa-check-circle"></i></div>
+                </div>
+                <div class="stat-value" id="quizzesCompleted">0</div>
+                <div class="stat-change positive">
+                    <i class="fas fa-arrow-up"></i>
+                    <span>Điểm TB: <span id="averageScore">0</span></span>
+                </div>
+            </div>
+            
+            <div class="stat-card">
+                <div class="stat-header">
+                    <div class="stat-title">Streak học tập</div>
+                    <div class="stat-icon streak"><i class="fas fa-fire"></i></div>
+                </div>
+                <div class="stat-value" id="studyStreak">0 ngày</div>
+                <div class="stat-change positive">
+                    <i class="fas fa-arrow-up"></i>
+                    <span id="streakChange">Tiếp tục phát huy!</span>
+                </div>
+            </div>
+            
+            <div class="stat-card">
+                <div class="stat-header">
+                    <div class="stat-title">Thời gian học</div>
+                    <div class="stat-icon time"><i class="fas fa-clock"></i></div>
+                </div>
+                <div class="stat-value" id="studyTime">0h</div>
+                <div class="stat-change positive">
+                    <i class="fas fa-arrow-up"></i>
+                    <span id="timeChange">Hôm nay: 0 phút</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Main Content Sections -->
+        <div class="main-content active" id="dashboard-content">
+            <div class="content-header">
+                <div>
+                    <h2 class="content-title">Xin chào, Người học!</h2>
+                    <p class="content-subtitle">Chào mừng bạn đến với hành trình chinh phục 3 chứng chỉ ngôn ngữ</p>
+                </div>
+                <button class="btn btn-primary" id="startLearning">
+                    <i class="fas fa-play"></i> Bắt đầu học ngay
+                </button>
+            </div>
+            
+            <div class="stats-container">
+                <div class="chart-container">
+                    <div class="chart-title">Tiến độ học tập theo chứng chỉ</div>
+                    <canvas id="certificateChart"></canvas>
+                </div>
+                
+                <div class="chart-container">
+                    <div class="chart-title">Phân bổ thời gian học</div>
+                    <canvas id="timeDistributionChart"></canvas>
+                </div>
+            </div>
+        </div>
+
+        <!-- Vocabulary Section -->
+        <div class="main-content" id="vocabulary-content">
+            <div class="content-header">
+                <div>
+                    <h2 class="content-title">Học từ vựng</h2>
+                    <p class="content-subtitle">Tích lũy từ vựng cho IELTS 8.0, HSK 6 và TOCFL C1</p>
+                </div>
+                <button class="btn btn-primary" id="addCustomWord">
+                    <i class="fas fa-plus"></i> Thêm từ của bạn
+                </button>
+            </div>
+            
+            <div class="vocab-controls">
+                <div class="vocab-filter">
+                    <button class="filter-btn active" data-filter="all">Tất cả</button>
+                    <button class="filter-btn" data-filter="ielts">IELTS</button>
+                    <button class="filter-btn" data-filter="hsk">HSK</button>
+                    <button class="filter-btn" data-filter="tocfl">TOCFL</button>
+                </div>
+                <div class="vocab-search">
+                    <div class="search-box">
+                        <i class="fas fa-search"></i>
+                        <input type="text" id="vocabSearch" placeholder="Tìm từ vựng, chủ đề...">
+                    </div>
+                    <button class="btn btn-secondary" id="spacedRepetition">
+                        <i class="fas fa-history"></i> Ôn tập thông minh
+                    </button>
+                </div>
+            </div>
+            
+            <div class="vocab-grid" id="vocabularyGrid">
+                <!-- Vocabulary cards will be loaded here -->
+            </div>
+        </div>
+
+        <!-- Quiz Section -->
+        <div class="main-content" id="quiz-content">
+            <div class="quiz-container">
+                <div class="content-header">
+                    <div>
+                        <h2 class="content-title">Kiểm tra từ vựng</h2>
+                        <p class="content-subtitle">Củng cố kiến thức với các bài quiz thông minh</p>
+                    </div>
+                    <div class="badge badge-ielts" id="currentQuizType">IELTS</div>
+                </div>
+                
+                <div class="quiz-progress">
+                    <div class="quiz-progress-bar" id="quizProgress" style="width: 0%"></div>
+                </div>
+                
+                <div class="quiz-question" id="quizQuestion">
+                    Chọn đáp án đúng cho từ vựng sau:
+                </div>
+                
+                <div class="quiz-options" id="quizOptions">
+                    <!-- Options will be loaded here -->
+                </div>
+                
+                <div class="quiz-controls">
+                    <button class="quiz-btn secondary" id="prevQuestion">
+                        <i class="fas fa-arrow-left"></i> Câu trước
+                    </button>
+                    <button class="quiz-btn primary" id="nextQuestion">
+                        Câu tiếp theo <i class="fas fa-arrow-right"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Listening Section -->
+        <div class="main-content" id="listening-content">
+            <div class="listening-container">
+                <div class="content-header">
+                    <div>
+                        <h2 class="content-title">Luyện nghe</h2>
+                        <p class="content-subtitle">Cải thiện kỹ năng nghe với các bài tập đa dạng</p>
+                    </div>
+                    <div class="btn-group">
+                        <button class="btn btn-secondary" id="changeDifficulty">
+                            <i class="fas fa-sliders-h"></i> Độ khó
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="audio-player">
+                    <h3 id="listeningTitle">Bài nghe về môi trường</h3>
+                    <p id="listeningDescription">Nghe và trả lời câu hỏi bên dưới</p>
+                    
+                    <div class="audio-controls">
+                        <button class="audio-btn" id="playBtn">
+                            <i class="fas fa-play"></i>
+                        </button>
+                        <div class="progress-bar" id="progressBar">
+                            <div class="progress" id="progress"></div>
+                        </div>
+                        <span id="currentTime">0:00</span>
+                    </div>
+                </div>
+                
+                <div class="quiz-options" id="listeningQuestions">
+                    <!-- Listening questions will be loaded here -->
+                </div>
+                
+                <div class="transcript-container">
+                    <h4>Transcript</h4>
+                    <div id="transcriptContent">
+                        <!-- Transcript will be loaded here -->
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Writing Section -->
+        <div class="main-content" id="writing-content">
+            <div class="writing-container">
+                <div class="writing-prompt">
+                    <div class="prompt-header">
+                        <div class="prompt-icon">
+                            <i class="fas fa-pen-fancy"></i>
+                        </div>
+                        <div>
+                            <h3>Đề bài viết</h3>
+                            <div class="badge badge-ielts">IELTS Writing Task 2</div>
+                        </div>
+                    </div>
+                    <div class="prompt-content" id="writingPrompt">
+                        Some people believe that the automation of jobs by artificial intelligence and robots will lead to widespread unemployment. Others argue that it will create new types of jobs. Discuss both views and give your own opinion.
+                    </div>
+                    <div style="margin-top: 20px;">
+                        <h4>Yêu cầu:</h4>
+                        <ul style="padding-left: 20px; margin-top: 10px;">
+                            <li>Viết tối thiểu 250 từ</li>
+                            <li>Trình bày rõ ràng quan điểm</li>
+                            <li>Sử dụng từ vựng học thuật</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="writing-area">
+                    <div class="writing-tools">
+                        <button class="tool-btn" id="wordCountBtn">
+                            <i class="fas fa-calculator"></i> Đếm từ
+                        </button>
+                        <button class="tool-btn" id="checkVocabBtn">
+                            <i class="fas fa-spell-check"></i> Kiểm tra từ vựng
+                        </button>
+                        <button class="tool-btn" id="saveDraftBtn">
+                            <i class="fas fa-save"></i> Lưu nháp
+                        </button>
+                        <button class="tool-btn" id="submitEssayBtn">
+                            <i class="fas fa-paper-plane"></i> Nộp bài
+                        </button>
+                    </div>
+                    
+                    <textarea id="writingTextarea" placeholder="Bắt đầu viết bài luận của bạn tại đây..."></textarea>
+                    
+                    <div class="writing-stats">
+                        <span id="wordCount">0 từ</span>
+                        <span id="characterCount">0 ký tự</span>
+                        <span id="timeSpent">Thời gian: 0:00</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Statistics Section -->
+        <div class="main-content" id="statistics-content">
+            <div class="content-header">
+                <div>
+                    <h2 class="content-title">Thống kê học tập</h2>
+                    <p class="content-subtitle">Theo dõi tiến độ và hiệu suất học tập của bạn</p>
+                </div>
+                <button class="btn btn-primary" id="exportData">
+                    <i class="fas fa-download"></i> Xuất dữ liệu
+                </button>
+            </div>
+            
+            <div class="stats-container">
+                <div class="chart-container">
+                    <div class="chart-title">Tiến độ từ vựng theo tuần</div>
+                    <canvas id="weeklyProgressChart"></canvas>
+                </div>
+                
+                <div class="chart-container">
+                    <div class="chart-title">Tỷ lệ thành công bài quiz</div>
+                    <canvas id="quizSuccessChart"></canvas>
+                </div>
+                
+                <div class="chart-container">
+                    <div class="chart-title">Thời gian học theo kỹ năng</div>
+                    <canvas id="skillTimeChart"></canvas>
+                </div>
+                
+                <div class="chart-container">
+                    <div class="chart-title">Từ vựng theo chủ đề</div>
+                    <canvas id="topicDistributionChart"></canvas>
+                </div>
+            </div>
+        </div>
+
+        <!-- Community Section -->
+        <div class="main-content" id="community-content">
+            <div class="community-container">
+                <div class="content-header">
+                    <div>
+                        <h2 class="content-title">Cộng đồng học tập</h2>
+                        <p class="content-subtitle">Kết nối và học hỏi từ những người học khác</p>
+                    </div>
+                    <button class="btn btn-primary" id="createPost">
+                        <i class="fas fa-plus"></i> Tạo bài viết
+                    </button>
+                </div>
+                
+                <div class="leaderboard">
+                    <div class="leaderboard-header">
+                        <h3>Bảng xếp hạng tháng này</h3>
+                        <div class="btn-group">
+                            <button class="btn btn-secondary active">Toàn bộ</button>
+                            <button class="btn btn-secondary">IELTS</button>
+                            <button class="btn btn-secondary">HSK</button>
+                            <button class="btn btn-secondary">TOCFL</button>
+                        </div>
+                    </div>
+                    
+                    <div id="leaderboardList">
+                        <!-- Leaderboard items will be loaded here -->
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Settings Section -->
+        <div class="main-content" id="settings-content">
+            <div class="settings-container">
+                <div class="content-header">
+                    <div>
+                        <h2 class="content-title">Cài đặt</h2>
+                        <p class="content-subtitle">Tùy chỉnh trải nghiệm học tập của bạn</p>
+                    </div>
+                </div>
+                
+                <div class="settings-card">
+                    <div class="settings-group">
+                        <h3 class="settings-title"><i class="fas fa-user"></i> Tài khoản</h3>
+                        <div class="setting-item">
+                            <div class="setting-label">Tên hiển thị</div>
+                            <div class="setting-control">
+                                <input type="text" id="displayName" value="Người học" class="form-control">
+                            </div>
+                        </div>
+                        <div class="setting-item">
+                            <div class="setting-label">Email</div>
+                            <div class="setting-control">
+                                <span>user@example.com</span>
+                            </div>
+                        </div>
+                        <div class="setting-item">
+                            <div class="setting-label">Mục tiêu học tập</div>
+                            <div class="setting-control">
+                                <select id="learningGoal" class="form-control">
+                                    <option value="5months">5 tháng (cấp tốc)</option>
+                                    <option value="8months">8 tháng (tiêu chuẩn)</option>
+                                    <option value="12months">12 tháng (thư giãn)</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="settings-group">
+                        <h3 class="settings-title"><i class="fas fa-bell"></i> Thông báo</h3>
+                        <div class="setting-item">
+                            <div class="setting-label">Nhắc nhở học tập</div>
+                            <div class="setting-control">
+                                <label class="switch">
+                                    <input type="checkbox" id="studyReminders" checked>
+                                    <span class="slider"></span>
+                                </label>
+                            </div>
+                        </div>
+                        <div class="setting-item">
+                            <div class="setting-label">Thông báo ôn tập</div>
+                            <div class="setting-control">
+                                <label class="switch">
+                                    <input type="checkbox" id="reviewReminders" checked>
+                                    <span class="slider"></span>
+                                </label>
+                            </div>
+                        </div>
+                        <div class="setting-item">
+                            <div class="setting-label">Thành tích mới</div>
+                            <div class="setting-control">
+                                <label class="switch">
+                                    <input type="checkbox" id="achievementNotifications" checked>
+                                    <span class="slider"></span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="settings-group">
+                        <h3 class="settings-title"><i class="fas fa-palette"></i> Giao diện</h3>
+                        <div class="setting-item">
+                            <div class="setting-label">Chế độ tối</div>
+                            <div class="setting-control">
+                                <label class="switch">
+                                    <input type="checkbox" id="darkMode">
+                                    <span class="slider"></span>
+                                </label>
+                            </div>
+                        </div>
+                        <div class="setting-item">
+                            <div class="setting-label">Font chữ</div>
+                            <div class="setting-control">
+                                <select id="fontFamily" class="form-control">
+                                    <option value="Inter">Inter</option>
+                                    <option value="Arial">Arial</option>
+                                    <option value="Roboto">Roboto</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <button class="btn btn-primary" id="saveSettings" style="width: 100%; margin-top: 20px;">
+                        <i class="fas fa-save"></i> Lưu cài đặt
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Modal for Adding Custom Word -->
+        <div class="modal" id="addWordModal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3 class="modal-title">Thêm từ vựng mới</h3>
+                    <button class="modal-close" id="closeWordModal">&times;</button>
+                </div>
+                <div style="margin-top: 20px;">
+                    <div class="form-group">
+                        <label>Từ vựng</label>
+                        <input type="text" id="newWord" class="form-control" placeholder="Nhập từ vựng...">
+                    </div>
+                    <div class="form-group">
+                        <label>Nghĩa</label>
+                        <input type="text" id="newMeaning" class="form-control" placeholder="Nhập nghĩa...">
+                    </div>
+                    <div class="form-group">
+                        <label>Chứng chỉ</label>
+                        <select id="newCertificate" class="form-control">
+                            <option value="ielts">IELTS</option>
+                            <option value="hsk">HSK</option>
+                            <option value="tocfl">TOCFL</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Chủ đề</label>
+                        <select id="newTopic" class="form-control">
+                            <option value="environment">Môi trường</option>
+                            <option value="technology">Công nghệ</option>
+                            <option value="education">Giáo dục</option>
+                            <option value="culture">Văn hóa</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Ví dụ</label>
+                        <textarea id="newExample" class="form-control" rows="3" placeholder="Nhập câu ví dụ..."></textarea>
+                    </div>
+                    <button class="btn btn-primary" id="saveNewWord" style="width: 100%; margin-top: 20px;">
+                        <i class="fas fa-save"></i> Lưu từ vựng
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Comprehensive Vocabulary Database
+        const vocabularyDatabase = {
+            environment: [
+                {
+                    id: 1,
+                    word: "Sustainable",
+                    pronunciation: "/səˈsteɪ.nə.bəl/",
+                    meaning: "Bền vững",
+                    example: "Sustainable development requires balancing economic growth with environmental protection.",
+                    certificate: "ielts",
+                    difficulty: 4,
+                    mastered: false,
+                    lastReviewed: null,
+                    nextReview: null
+                },
+                {
+                    id: 2,
+                    word: "可持续发展",
+                    pinyin: "kě chíxù fāzhǎn",
+                    meaning: "Phát triển bền vững",
+                    example: "可持续发展需要平衡经济增长和环境保护。",
+                    certificate: "hsk",
+                    difficulty: 5,
+                    mastered: false,
+                    lastReviewed: null,
+                    nextReview: null
+                },
+                {
+                    id: 3,
+                    word: "永续发展",
+                    pinyin: "yǒngxù fāzhǎn",
+                    meaning: "Phát triển bền vững",
+                    example: "永续发展乃当代人类之共同课题。",
+                    certificate: "tocfl",
+                    difficulty: 5,
+                    mastered: false,
+                    lastReviewed: null,
+                    nextReview: null
+                }
+            ],
+            technology: [
+                {
+                    id: 4,
+                    word: "Artificial Intelligence",
+                    pronunciation: "/ˌɑː.tɪˈfɪʃ.əl ɪnˈtel.ɪ.dʒəns/",
+                    meaning: "Trí tuệ nhân tạo",
+                    example: "AI is revolutionizing diagnostics in healthcare.",
+                    certificate: "ielts",
+                    difficulty: 3,
+                    mastered: false,
+                    lastReviewed: null,
+                    nextReview: null
+                },
+                {
+                    id: 5,
+                    word: "人工智能",
+                    pinyin: "réngōng zhìnéng",
+                    meaning: "Trí tuệ nhân tạo",
+                    example: "人工智能正在变革医疗诊断。",
+                    certificate: "hsk",
+                    difficulty: 4,
+                    mastered: false,
+                    lastReviewed: null,
+                    nextReview: null
+                },
+                {
+                    id: 6,
+                    word: "人工智慧",
+                    pinyin: "réngōng zhìhuì",
+                    meaning: "Trí tuệ nhân tạo",
+                    example: "人工智慧於醫療影像判讀之應用，大幅提升診斷效率。",
+                    certificate: "tocfl",
+                    difficulty: 4,
+                    mastered: false,
+                    lastReviewed: null,
+                    nextReview: null
+                }
+            ]
+        };
+
+        // Quiz Questions Database
+        const quizDatabase = {
+            ielts: [
+                {
+                    question: "What is the meaning of 'sustainable'?",
+                    options: [
+                        "Capable of being maintained",
+                        "Temporary solution",
+                        "Expensive to maintain",
+                        "Environmentally harmful"
+                    ],
+                    correct: 0,
+                    explanation: "Sustainable means capable of being maintained at a certain rate or level."
+                },
+                {
+                    question: "Which word means 'the variety of life in the world'?",
+                    options: [
+                        "Ecosystem",
+                        "Biodiversity",
+                        "Sustainability",
+                        "Conservation"
+                    ],
+                    correct: 1,
+                    explanation: "Biodiversity refers to the variety of plant and animal life in the world."
+                }
+            ],
+            hsk: [
+                {
+                    question: "可持续发展是什么意思？",
+                    options: [
+                        "快速开发",
+                        "可持续发展",
+                        "环境保护",
+                        "经济增长"
+                    ],
+                    correct: 1,
+                    explanation: "可持续发展是指满足当前需要而又不损害子孙后代满足其需要能力的发展。"
+                }
+            ],
+            tocfl: [
+                {
+                    question: "永续发展的主要目标是什么？",
+                    options: [
+                        "短期经济利益",
+                        "长期生态平衡",
+                        "快速工业化",
+                        "资源耗尽"
+                    ],
+                    correct: 1,
+                    explanation: "永续发展旨在实现经济、社会和环境三方面的平衡发展。"
+                }
+            ]
+        };
+
+        // User Data Management
+        class UserData {
+            constructor() {
+                this.loadData();
+            }
+            
+            loadData() {
+                this.stats = JSON.parse(localStorage.getItem('studyhub_stats')) || {
+                    totalWords: 0,
+                    dailyWords: 0,
+                    quizzesCompleted: 0,
+                    averageScore: 0,
+                    studyStreak: 0,
+                    studyTime: 0,
+                    todayTime: 0,
+                    vocabulary: [],
+                    quizHistory: [],
+                    writingHistory: []
+                };
+                
+                this.settings = JSON.parse(localStorage.getItem('studyhub_settings')) || {
+                    studyReminders: true,
+                    reviewReminders: true,
+                    achievementNotifications: true,
+                    darkMode: false,
+                    fontFamily: 'Inter',
+                    learningGoal: '5months'
+                };
+            }
+            
+            saveStats() {
+                localStorage.setItem('studyhub_stats', JSON.stringify(this.stats));
+            }
+            
+            saveSettings() {
+                localStorage.setItem('studyhub_settings', JSON.stringify(this.settings));
+            }
+            
+            addVocabulary(word) {
+                this.stats.vocabulary.push({
+                    ...word,
+                    addedDate: new Date().toISOString(),
+                    reviewCount: 0,
+                    mastered: false
+                });
+                this.stats.totalWords++;
+                this.stats.dailyWords++;
+                this.saveStats();
+            }
+            
+            completeQuiz(score, certificate) {
+                this.stats.quizzesCompleted++;
+                this.stats.quizHistory.push({
+                    date: new Date().toISOString(),
+                    score: score,
+                    certificate: certificate
+                });
+                
+                // Update average score
+                const totalScores = this.stats.quizHistory.reduce((sum, quiz) => sum + quiz.score, 0);
+                this.stats.averageScore = Math.round(totalScores / this.stats.quizHistory.length);
+                this.saveStats();
+            }
+            
+            updateStudyTime(minutes) {
+                this.stats.studyTime += minutes;
+                this.stats.todayTime += minutes;
+                this.saveStats();
+            }
+            
+            updateStreak() {
+                const lastStudy = localStorage.getItem('last_study_date');
+                const today = new Date().toDateString();
+                
+                if (lastStudy !== today) {
+                    const yesterday = new Date();
+                    yesterday.setDate(yesterday.getDate() - 1);
+                    
+                    if (lastStudy === yesterday.toDateString()) {
+                        this.stats.studyStreak++;
+                    } else {
+                        this.stats.studyStreak = 1;
+                    }
+                    
+                    localStorage.setItem('last_study_date', today);
+                    this.saveStats();
+                }
+            }
+        }
+
+        // Application State
+        const appState = {
+            currentTab: 'dashboard',
+            currentFilter: 'all',
+            currentQuiz: {
+                certificate: 'ielts',
+                currentQuestion: 0,
+                userAnswers: [],
+                startTime: null
+            },
+            userData: new UserData(),
+            audioPlayer: null,
+            writingTimer: null,
+            writingStartTime: null
+        };
+
+        // Initialize Application
+        document.addEventListener('DOMContentLoaded', function() {
+            initializeApp();
+            setupEventListeners();
+            updateDashboard();
+            renderVocabularyGrid();
+            initializeCharts();
+        });
+
+        function initializeApp() {
+            // Set initial tab
+            switchTab('dashboard');
+            
+            // Update user data
+            appState.userData.updateStreak();
+            
+            // Start writing timer
+            startWritingTimer();
+        }
+
+        function setupEventListeners() {
+            // Navigation
+            document.querySelectorAll('.nav-btn').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const tab = this.dataset.tab;
+                    switchTab(tab);
+                });
+            });
+            
+            // Vocabulary filter
+            document.querySelectorAll('.filter-btn').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+                    this.classList.add('active');
+                    appState.currentFilter = this.dataset.filter;
+                    renderVocabularyGrid();
+                });
+            });
+            
+            // Vocabulary search
+            document.getElementById('vocabSearch').addEventListener('input', function() {
+                renderVocabularyGrid();
+            });
+            
+            // Add custom word
+            document.getElementById('addCustomWord').addEventListener('click', function() {
+                document.getElementById('addWordModal').classList.add('active');
+            });
+            
+            document.getElementById('closeWordModal').addEventListener('click', function() {
+                document.getElementById('addWordModal').classList.remove('active');
+            });
+            
+            document.getElementById('saveNewWord').addEventListener('click', function() {
+                const newWord = {
+                    id: Date.now(),
+                    word: document.getElementById('newWord').value,
+                    meaning: document.getElementById('newMeaning').value,
+                    certificate: document.getElementById('newCertificate').value,
+                    topic: document.getElementById('newTopic').value,
+                    example: document.getElementById('newExample').value
+                };
+                
+                appState.userData.addVocabulary(newWord);
+                document.getElementById('addWordModal').classList.remove('active');
+                renderVocabularyGrid();
+                updateDashboard();
+                
+                // Reset form
+                document.getElementById('newWord').value = '';
+                document.getElementById('newMeaning').value = '';
+                document.getElementById('newExample').value = '';
+            });
+            
+            // Quiz navigation
+            document.getElementById('nextQuestion').addEventListener('click', nextQuestion);
+            document.getElementById('prevQuestion').addEventListener('click', prevQuestion);
+            
+            // Writing tools
+            document.getElementById('wordCountBtn').addEventListener('click', updateWordCount);
+            document.getElementById('submitEssayBtn').addEventListener('click', submitEssay);
+            
+            // Settings
+            document.getElementById('saveSettings').addEventListener('click', saveSettings);
+            
+            // Start learning button
+            document.getElementById('startLearning').addEventListener('click', function() {
+                switchTab('vocabulary');
+            });
+        }
+
+        function switchTab(tabName) {
+            // Update navigation
+            document.querySelectorAll('.nav-btn').forEach(btn => {
+                btn.classList.toggle('active', btn.dataset.tab === tabName);
+            });
+            
+            // Update content
+            document.querySelectorAll('.main-content').forEach(content => {
+                content.classList.toggle('active', content.id === `${tabName}-content`);
+            });
+            
+            appState.currentTab = tabName;
+            
+            // Initialize tab-specific features
+            switch(tabName) {
+                case 'quiz':
+                    initializeQuiz();
+                    break;
+                case 'listening':
+                    initializeListening();
+                    break;
+                case 'writing':
+                    startWritingTimer();
+                    break;
+                case 'statistics':
+                    updateCharts();
+                    break;
+            }
+        }
+
+        function updateDashboard() {
+            const stats = appState.userData.stats;
+            
+            document.getElementById('totalWords').textContent = stats.totalWords;
+            document.getElementById('dailyWords').textContent = `${stats.dailyWords} từ hôm nay`;
+            document.getElementById('quizzesCompleted').textContent = stats.quizzesCompleted;
+            document.getElementById('averageScore').textContent = stats.averageScore;
+            document.getElementById('studyStreak').textContent = `${stats.studyStreak} ngày`;
+            document.getElementById('studyTime').textContent = `${Math.round(stats.studyTime / 60)}h`;
+            document.getElementById('timeChange').textContent = `Hôm nay: ${stats.todayTime} phút`;
+        }
+
+        function renderVocabularyGrid() {
+            const container = document.getElementById('vocabularyGrid');
+            const searchTerm = document.getElementById('vocabSearch').value.toLowerCase();
+            
+            container.innerHTML = '';
+            
+            // Flatten vocabulary database
+            let allWords = [];
+            Object.values(vocabularyDatabase).forEach(category => {
+                allWords = allWords.concat(category);
+            });
+            
+            // Add user's custom words
+            allWords = allWords.concat(appState.userData.stats.vocabulary);
+            
+            // Apply filters
+            let filteredWords = allWords;
+            
+            if (appState.currentFilter !== 'all') {
+                filteredWords = filteredWords.filter(word => 
+                    word.certificate === appState.currentFilter
+                );
+            }
+            
+            if (searchTerm) {
+                filteredWords = filteredWords.filter(word => 
+                    word.word.toLowerCase().includes(searchTerm) ||
+                    word.meaning.toLowerCase().includes(searchTerm) ||
+                    (word.pinyin && word.pinyin.toLowerCase().includes(searchTerm))
+                );
+            }
+            
+            // Render words
+            filteredWords.forEach(word => {
+                const card = createVocabularyCard(word);
+                container.appendChild(card);
+            });
+            
+            if (filteredWords.length === 0) {
+                container.innerHTML = `
+                    <div style="text-align: center; padding: 50px; color: var(--gray);">
+                        <i class="fas fa-search fa-3x" style="margin-bottom: 20px;"></i>
+                        <h3>Không tìm thấy từ vựng phù hợp</h3>
+                        <p>Thử thay đổi bộ lọc hoặc thêm từ vựng mới</p>
+                    </div>
+                `;
+            }
+        }
+
+        function createVocabularyCard(word) {
+            const card = document.createElement('div');
+            card.className = 'stat-card';
+            
+            const certificateBadge = {
+                ielts: 'badge-ielts',
+                hsk: 'badge-hsk',
+                tocfl: 'badge-tocfl'
+            }[word.certificate];
+            
+            const certificateName = {
+                ielts: 'IELTS',
+                hsk: 'HSK',
+                tocfl: 'TOCFL'
+            }[word.certificate];
+            
+            card.innerHTML = `
+                <div class="stat-header">
+                    <div class="stat-title">${certificateName}</div>
+                    <div class="stat-icon vocab" style="background: var(--${word.certificate})">
+                        <i class="fas fa-book"></i>
+                    </div>
+                </div>
+                <div style="margin-bottom: 15px;">
+                    <h3 style="font-size: 1.5rem; font-weight: 700; margin-bottom: 5px;">${word.word}</h3>
+                    ${word.pinyin ? `<div style="color: var(--gray); margin-bottom: 5px;">${word.pinyin}</div>` : ''}
+                    ${word.pronunciation ? `<div style="color: var(--gray); margin-bottom: 5px;">${word.pronunciation}</div>` : ''}
+                </div>
+                <div style="color: var(--dark); font-size: 1.1rem; margin-bottom: 15px;">${word.meaning}</div>
+                ${word.example ? `<div style="background: rgba(67, 97, 238, 0.05); padding: 10px; border-radius: 8px; margin-bottom: 15px; font-style: italic;">${word.example}</div>` : ''}
+                <div style="display: flex; justify-content: space-between; align-items: center;">
+                    <span class="badge ${certificateBadge}">${certificateName}</span>
+                    <button class="btn btn-secondary" style="padding: 8px 16px;" onclick="speakWord('${word.word}', '${word.certificate}')">
+                        <i class="fas fa-volume-up"></i>
+                    </button>
+                </div>
+            `;
+            
+            return card;
+        }
+
+        function speakWord(word, certificate) {
+            const langMap = {
+                ielts: 'en-US',
+                hsk: 'zh-CN',
+                tocfl: 'zh-TW'
+            };
+            
+            const utterance = new SpeechSynthesisUtterance(word);
+            utterance.lang = langMap[certificate];
+            utterance.rate = 0.8;
+            
+            speechSynthesis.speak(utterance);
+        }
+
+        function initializeQuiz() {
+            const quizType = 'ielts'; // Default to IELTS
+            appState.currentQuiz = {
+                certificate: quizType,
+                currentQuestion: 0,
+                userAnswers: [],
+                startTime: new Date()
+            };
+            
+            document.getElementById('currentQuizType').textContent = quizType.toUpperCase();
+            loadQuestion();
+        }
+
+        function loadQuestion() {
+            const quiz = quizDatabase[appState.currentQuiz.certificate];
+            const currentQ = appState.currentQuiz.currentQuestion;
+            
+            if (currentQ >= quiz.length) {
+                showQuizResults();
+                return;
+            }
+            
+            const question = quiz[currentQ];
+            
+            document.getElementById('quizQuestion').textContent = question.question;
+            document.getElementById('quizProgress').style.width = `${(currentQ / quiz.length) * 100}%`;
+            
+            const optionsContainer = document.getElementById('quizOptions');
+            optionsContainer.innerHTML = '';
+            
+            question.options.forEach((option, index) => {
+                const optionElement = document.createElement('div');
+                optionElement.className = 'quiz-option';
+                optionElement.innerHTML = `
+                    <div style="width: 30px; height: 30px; border-radius: 50%; background: #f0f0f0; display: flex; align-items: center; justify-content: center; font-weight: 600;">
+                        ${String.fromCharCode(65 + index)}
+                    </div>
+                    <span>${option}</span>
+                `;
+                
+                optionElement.addEventListener('click', () => selectAnswer(index));
+                optionsContainer.appendChild(optionElement);
+            });
+            
+            // Update navigation buttons
+            document.getElementById('prevQuestion').style.display = currentQ === 0 ? 'none' : 'flex';
+            document.getElementById('nextQuestion').textContent = currentQ === quiz.length - 1 ? 'Hoàn thành' : 'Câu tiếp theo';
+        }
+
+        function selectAnswer(answerIndex) {
+            const options = document.querySelectorAll('.quiz-option');
+            options.forEach(opt => opt.classList.remove('selected'));
+            options[answerIndex].classList.add('selected');
+            
+            appState.currentQuiz.userAnswers[appState.currentQuiz.currentQuestion] = answerIndex;
+        }
+
+        function nextQuestion() {
+            const quiz = quizDatabase[appState.currentQuiz.certificate];
+            
+            if (appState.currentQuiz.currentQuestion < quiz.length - 1) {
+                appState.currentQuiz.currentQuestion++;
+                loadQuestion();
+            } else {
+                showQuizResults();
+            }
+        }
+
+        function prevQuestion() {
+            if (appState.currentQuiz.currentQuestion > 0) {
+                appState.currentQuiz.currentQuestion--;
+                loadQuestion();
+            }
+        }
+
+        function showQuizResults() {
+            const quiz = quizDatabase[appState.currentQuiz.certificate];
+            let correctAnswers = 0;
+            
+            quiz.forEach((question, index) => {
+                if (appState.currentQuiz.userAnswers[index] === question.correct) {
+                    correctAnswers++;
+                }
+            });
+            
+            const score = Math.round((correctAnswers / quiz.length) * 100);
+            const timeSpent = Math.round((new Date() - appState.currentQuiz.startTime) / 1000);
+            
+            appState.userData.completeQuiz(score, appState.currentQuiz.certificate);
+            
+            document.getElementById('quiz-content').innerHTML = `
+                <div style="text-align: center; padding: 50px;">
+                    <div style="width: 100px; height: 100px; background: var(--success); color: white; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; font-size: 2rem; font-weight: 700; margin-bottom: 30px;">
+                        ${score}%
+                    </div>
+                    <h2>Chúc mừng!</h2>
+                    <p>Bạn đã hoàn thành bài quiz</p>
+                    <div style="max-width: 400px; margin: 30px auto; background: var(--light); padding: 20px; border-radius: var(--radius);">
+                        <div style="display: flex; justify-content: space-between; margin-bottom: 10px;">
+                            <span>Số câu đúng:</span>
+                            <span style="font-weight: 700;">${correctAnswers}/${quiz.length}</span>
+                        </div>
+                        <div style="display: flex; justify-content: space-between; margin-bottom: 10px;">
+                            <span>Thời gian:</span>
+                            <span style="font-weight: 700;">${timeSpent} giây</span>
+                        </div>
+                        <div style="display: flex; justify-content: space-between;">
+                            <span>Điểm số:</span>
+                            <span style="font-weight: 700;">${score}/100</span>
+                        </div>
+                    </div>
+                    <div style="margin-top: 30px;">
+                        <button class="btn btn-primary" onclick="initializeQuiz()" style="margin-right: 10px;">
+                            <i class="fas fa-redo"></i> Làm lại
+                        </button>
+                        <button class="btn btn-secondary" onclick="switchTab('dashboard')">
+                            <i class="fas fa-home"></i> Về Dashboard
+                        </button>
+                    </div>
+                </div>
+            `;
+            
+            updateDashboard();
+        }
+
+        function initializeListening() {
+            // This would connect to actual audio files
+            // For demo, we'll create a simulated audio player
+            
+            document.getElementById('playBtn').addEventListener('click', function() {
+                const icon = this.querySelector('i');
+                if (icon.classList.contains('fa-play')) {
+                    icon.classList.remove('fa-play');
+                    icon.classList.add('fa-pause');
+                    simulateAudioPlayback();
+                } else {
+                    icon.classList.remove('fa-pause');
+                    icon.classList.add('fa-play');
+                }
+            });
+        }
+
+        function simulateAudioPlayback() {
+            let progress = 0;
+            const interval = setInterval(() => {
+                progress += 1;
+                document.getElementById('progress').style.width = `${progress}%`;
+                document.getElementById('currentTime').textContent = formatTime(progress);
+                
+                if (progress >= 100) {
+                    clearInterval(interval);
+                    document.getElementById('playBtn').querySelector('i').classList.remove('fa-pause');
+                    document.getElementById('playBtn').querySelector('i').classList.add('fa-play');
+                }
+            }, 100);
+        }
+
+        function formatTime(percent) {
+            const totalSeconds = 180; // 3 minutes
+            const currentSeconds = Math.round((percent / 100) * totalSeconds);
+            const minutes = Math.floor(currentSeconds / 60);
+            const seconds = currentSeconds % 60;
+            return `${minutes}:${seconds.toString().padStart(2, '0')}`;
+        }
+
+        function startWritingTimer() {
+            if (appState.writingTimer) {
+                clearInterval(appState.writingTimer);
+            }
+            
+            appState.writingStartTime = new Date();
+            
+            appState.writingTimer = setInterval(() => {
+                const now = new Date();
+                const diff = Math.floor((now - appState.writingStartTime) / 1000);
+                const minutes = Math.floor(diff / 60);
+                const seconds = diff % 60;
+                
+                document.getElementById('timeSpent').textContent = 
+                    `Thời gian: ${minutes}:${seconds.toString().padStart(2, '0')}`;
+            }, 1000);
+        }
+
+        function updateWordCount() {
+            const text = document.getElementById('writingTextarea').value;
+            const words = text.trim() ? text.trim().split(/\s+/).length : 0;
+            const characters = text.length;
+            
+            document.getElementById('wordCount').textContent = `${words} từ`;
+            document.getElementById('characterCount').textContent = `${characters} ký tự`;
+        }
+
+        function submitEssay() {
+            const text = document.getElementById('writingTextarea').value;
+            const words = text.trim() ? text.trim().split(/\s+/).length : 0;
+            
+            if (words < 50) {
+                alert('Bài viết quá ngắn. Hãy viết ít nhất 50 từ.');
+                return;
+            }
+            
+            // Analyze vocabulary (simplified)
+            const vocabScore = analyzeVocabulary(text);
+            const timeSpent = Math.floor((new Date() - appState.writingStartTime) / 1000);
+            
+            // Save to history
+            appState.userData.stats.writingHistory.push({
+                date: new Date().toISOString(),
+                wordCount: words,
+                timeSpent: timeSpent,
+                vocabularyScore: vocabScore
+            });
+            appState.userData.saveStats();
+            
+            // Show results
+            alert(`Bài viết đã được nộp!\n\nSố từ: ${words}\nThời gian: ${Math.floor(timeSpent / 60)}:${(timeSpent % 60).toString().padStart(2, '0')}\nĐiểm từ vựng: ${vocabScore}/10`);
+        }
+
+        function analyzeVocabulary(text) {
+            // Simplified vocabulary analysis
+            const advancedWords = ['sustainable', 'biodiversity', 'artificial', 'intelligence', 'development'];
+            let score = 5; // Base score
+            
+            text.toLowerCase().split(/\s+/).forEach(word => {
+                if (advancedWords.includes(word)) {
+                    score += 1;
+                }
+            });
+            
+            return Math.min(10, score);
+        }
+
+        function saveSettings() {
+            const settings = {
+                studyReminders: document.getElementById('studyReminders').checked,
+                reviewReminders: document.getElementById('reviewReminders').checked,
+                achievementNotifications: document.getElementById('achievementNotifications').checked,
+                darkMode: document.getElementById('darkMode').checked,
+                fontFamily: document.getElementById('fontFamily').value,
+                learningGoal: document.getElementById('learningGoal').value
+            };
+            
+            appState.userData.settings = settings;
+            appState.userData.saveSettings();
+            
+            // Apply settings
+            if (settings.darkMode) {
+                document.body.style.backgroundColor = '#121212';
+                document.body.style.color = '#ffffff';
+            }
+            
+            document.body.style.fontFamily = settings.fontFamily;
+            
+            alert('Cài đặt đã được lưu!');
+        }
+
+        function initializeCharts() {
+            // Certificate Progress Chart
+            const ctx1 = document.getElementById('certificateChart').getContext('2d');
+            new Chart(ctx1, {
+                type: 'bar',
+                data: {
+                    labels: ['IELTS', 'HSK', 'TOCFL'],
+                    datasets: [{
+                        label: 'Tiến độ (%)',
+                        data: [65, 40, 30],
+                        backgroundColor: [
+                            'var(--ielts)',
+                            'var(--hsk)',
+                            'var(--tocfl)'
+                        ],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            max: 100
+                        }
+                    }
+                }
+            });
+            
+            // Time Distribution Chart
+            const ctx2 = document.getElementById('timeDistributionChart').getContext('2d');
+            new Chart(ctx2, {
+                type: 'doughnut',
+                data: {
+                    labels: ['Từ vựng', 'Nghe', 'Đọc', 'Viết', 'Nói'],
+                    datasets: [{
+                        data: [40, 25, 20, 10, 5],
+                        backgroundColor: [
+                            'var(--primary)',
+                            'var(--success)',
+                            'var(--warning)',
+                            'var(--danger)',
+                            'var(--secondary)'
+                        ]
+                    }]
+                }
+            });
+        }
+
+        function updateCharts() {
+            // Update charts with real data
+            const stats = appState.userData.stats;
+            
+            // Weekly progress chart
+            const ctx3 = document.getElementById('weeklyProgressChart').getContext('2d');
+            new Chart(ctx3, {
+                type: 'line',
+                data: {
+                    labels: ['Tuần 1', 'Tuần 2', 'Tuần 3', 'Tuần 4', 'Tuần 5'],
+                    datasets: [{
+                        label: 'Từ vựng mới',
+                        data: [50, 75, 60, 90, 120],
+                        borderColor: 'var(--primary)',
+                        backgroundColor: 'rgba(67, 97, 238, 0.1)',
+                        fill: true
+                    }]
+                }
+            });
+        }
+
+        // Utility functions for leaderboard
+        function generateLeaderboard() {
+            const leaderboardData = [
+                { name: 'Nguyễn Văn A', score: 9850, streak: 42 },
+                { name: 'Trần Thị B', score: 8760, streak: 35 },
+                { name: 'Lê Văn C', score: 7540, streak: 28 },
+                { name: 'Phạm Thị D', score: 6320, streak: 21 },
+                { name: 'Hoàng Văn E', score: 5210, streak: 14 }
+            ];
+            
+            const container = document.getElementById('leaderboardList');
+            container.innerHTML = '';
+            
+            leaderboardData.forEach((user, index) => {
+                const item = document.createElement('div');
+                item.className = 'leaderboard-item';
+                
+                const rankClass = `rank-${index < 3 ? index + 1 : 'other'}`;
+                
+                item.innerHTML = `
+                    <div class="rank ${rankClass}">${index + 1}</div>
+                    <div class="user-info">
+                        <div class="user-name">${user.name}</div>
+                        <div class="user-stats">Streak: ${user.streak} ngày</div>
+                    </div>
+                    <div class="user-score">${user.score}</div>
+                `;
+                
+                container.appendChild(item);
+            });
+        }
+
+        // Initialize leaderboard when community tab is active
+        document.addEventListener('click', function(e) {
+            if (e.target.closest('[data-tab="community"]')) {
+                setTimeout(generateLeaderboard, 100);
+            }
+        });
+
+        // Export data function
+        document.getElementById('exportData').addEventListener('click', function() {
+            const data = {
+                userData: appState.userData.stats,
+                settings: appState.userData.settings,
+                exportDate: new Date().toISOString()
+            };
+            
+            const dataStr = JSON.stringify(data, null, 2);
+            const dataBlob = new Blob([dataStr], {type: 'application/json'});
+            
+            const url = URL.createObjectURL(dataBlob);
+            const link = document.createElement('a');
+            link.href = url;
+            link.download = `studyhub_data_${new Date().toISOString().split('T')[0]}.json`;
+            link.click();
+            
+            URL.revokeObjectURL(url);
+        });
+
+        // Spaced repetition system
+        document.getElementById('spacedRepetition').addEventListener('click', function() {
+            const wordsToReview = getWordsForReview();
+            
+            if (wordsToReview.length === 0) {
+                alert('Không có từ nào cần ôn tập vào lúc này!');
+                return;
+            }
+            
+            const randomWord = wordsToReview[Math.floor(Math.random() * wordsToReview.length)];
+            
+            document.getElementById('vocabulary-content').innerHTML = `
+                <div style="text-align: center; padding: 50px;">
+                    <div style="font-size: 3rem; margin-bottom: 30px; color: var(--primary);">
+                        <i class="fas fa-brain"></i>
+                    </div>
+                    <h2>Ôn tập thông minh</h2>
+                    <p style="margin: 30px 0; font-size: 1.2rem;">Từ vựng cần ôn:</p>
+                    
+                    <div style="max-width: 500px; margin: 0 auto; background: white; padding: 30px; border-radius: var(--radius); box-shadow: var(--shadow);">
+                        <h3 style="color: var(--dark); margin-bottom: 15px;">${randomWord.word}</h3>
+                        ${randomWord.pinyin ? `<p style="color: var(--gray); margin-bottom: 15px;">${randomWord.pinyin}</p>` : ''}
+                        
+                        <div style="margin: 30px 0;">
+                            <button class="btn btn-secondary" onclick="showTranslation(this)" style="margin-bottom: 15px;">
+                                <i class="fas fa-eye"></i> Xem nghĩa
+                            </button>
+                            <div id="translation" style="display: none; padding: 20px; background: var(--light); border-radius: var(--radius);">
+                                <strong>Nghĩa:</strong> ${randomWord.meaning}
+                                ${randomWord.example ? `<br><strong>Ví dụ:</strong> ${randomWord.example}` : ''}
+                            </div>
+                        </div>
+                        
+                        <div style="margin-top: 30px;">
+                            <p>Bạn nhớ từ này như thế nào?</p>
+                            <div style="display: flex; gap: 10px; justify-content: center; margin-top: 15px;">
+                                <button class="btn btn-secondary" onclick="rateRecall(1, ${randomWord.id})">
+                                    <i class="fas fa-frown"></i> Quên
+                                </button>
+                                <button class="btn btn-secondary" onclick="rateRecall(3, ${randomWord.id})">
+                                    <i class="fas fa-meh"></i> Tạm được
+                                </button>
+                                <button class="btn btn-secondary" onclick="rateRecall(5, ${randomWord.id})">
+                                    <i class="fas fa-smile"></i> Nhớ rõ
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <button class="btn btn-primary" onclick="switchTab('vocabulary')" style="margin-top: 30px;">
+                        <i class="fas fa-arrow-left"></i> Quay lại
+                    </button>
+                </div>
+            `;
+        });
+
+        function showTranslation(button) {
+            const translationDiv = document.getElementById('translation');
+            translationDiv.style.display = 'block';
+            button.style.display = 'none';
+        }
+
+        function rateRecall(score, wordId) {
+            // Update word's review schedule based on recall score
+            // Higher score = longer interval until next review
+            
+            const intervals = {
+                1: 1, // 1 day
+                3: 3, // 3 days
+                5: 7  // 7 days
+            };
+            
+            // In a real app, update the word's nextReview date
+            alert(`Cảm ơn phản hồi! Từ này sẽ được ôn lại sau ${intervals[score]} ngày.`);
+            switchTab('vocabulary');
+        }
+
+        function getWordsForReview() {
+            // Return words that are due for review
+            // For demo, return some random words
+            return [
+                {
+                    id: 1,
+                    word: 'Sustainable',
+                    meaning: 'Bền vững',
+                    example: 'Sustainable development requires balancing economic growth with environmental protection.',
+                    pinyin: null
+                },
+                {
+                    id: 2,
+                    word: '可持续发展',
+                    meaning: 'Phát triển bền vững',
+                    example: '可持续发展需要平衡经济增长和环境保护。',
+                    pinyin: 'kě chíxù fāzhǎn'
+                }
+            ];
+        }
+
+        // Make functions available globally
+        window.switchTab = switchTab;
+        window.showTranslation = showTranslation;
+        window.rateRecall = rateRecall;
+        window.speakWord = speakWord;
+        window.initializeQuiz = initializeQuiz;
+        window.nextQuestion = nextQuestion;
+        window.prevQuestion = prevQuestion;
+    </script>
+</body>
+</html>
